@@ -1,0 +1,14 @@
+[[package]]
+category = "main"
+description = "Python bindings for the Qt cross-platform application and UI framework"
+name = "pyside2"
+optional = false
+python-versions = "*"
+version = "5.11.2"
+
+[metadata]
+content-hash = "656f06c9ef5209632644a9b49ae418351cdfa39a02eb30258bee477d33f7f961"
+python-versions = "^3.7"
+
+[metadata.hashes]
+pyside2 = ["018d125e70f0a4dec9eddb6d6d1d9be36f1f10bf31067a9d4d2035e29f553114", "425f7dcae672db15470df994295710588bf6bd2cc9937e003b5b2ea21a0f69d5", "4bf50474c144d18f3c37e2cd0a73647b2133e431bf2416f52ac974cad7118b56", "79de3b8bad38f3371829165517fe265d02103b5fd9ff0980000dc45471dffc60", "8af8d62e8b63c61002e599a86799d2611b6fbef06ee82fd05b48d4ec591eae32", "df468f4592c1b64656ee382ee7e8b735dbe0e62fe470a5243fe36f0dc43f2d8e"]
