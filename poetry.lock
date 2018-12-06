@@ -1,5 +1,40 @@
 [[package]]
 category = "main"
+description = "Python package for providing Mozilla's CA Bundle."
+name = "certifi"
+optional = false
+python-versions = "*"
+version = "2018.11.29"
+
+[[package]]
+category = "main"
+description = "Universal encoding detector for Python 2 and 3"
+name = "chardet"
+optional = false
+python-versions = "*"
+version = "3.0.4"
+
+[[package]]
+category = "main"
+description = "Python bindings for Echo VR's HTTP API."
+name = "echovr-api"
+optional = false
+python-versions = "*"
+version = "0.2.0"
+
+[package.dependencies]
+requests = "*"
+
+[[package]]
+category = "main"
+description = "Internationalized Domain Names in Applications (IDNA)"
+name = "idna"
+optional = false
+python-versions = "*"
+version = "2.7"
+
+[[package]]
+category = "main"
 description = "Discord RPC client written in Python"
 name = "pypresence"
 optional = false
@@ -14,10 +49,38 @@ optional = false
 python-versions = "*"
 version = "5.11.2"
 
+[[package]]
+category = "main"
+description = "Python HTTP for Humans."
+name = "requests"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "2.20.1"
+
+[package.dependencies]
+certifi = ">=2017.4.17"
+chardet = ">=3.0.2,<3.1.0"
+idna = ">=2.5,<2.8"
+urllib3 = ">=1.21.1,<1.25"
+
+[[package]]
+category = "main"
+description = "HTTP library with thread-safe connection pooling, file post, and more."
+name = "urllib3"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, <4"
+version = "1.24.1"
+
 [metadata]
-content-hash = "561aa9a9d7b0ef1682199cff8ec7ee4257ad8e4178368b16470c2592ba651445"
+content-hash = "88a05fcde770fe178a9b17a1339e94ac7a710538abe007d896488555bf521eb5"
 python-versions = "^3.7"
 
 [metadata.hashes]
+certifi = ["47f9c83ef4c0c621eaef743f133f09fa8a74a9b75f037e8624f83bd1b6626cb7", "993f830721089fef441cdfeb4b2c8c9df86f0c63239f06bd025a76a7daddb033"]
+chardet = ["84ab92ed1c4d4f16916e05906b6b75a6c0fb5db821cc65e70cbd64a3e2a5eaae", "fc323ffcaeaed0e0a02bf4d117757b98aed530d9ed4531e3e15460124c106691"]
+echovr-api = ["4a65e46d2a2d7788fe2bc3d5a05a18baebe078da554941e57cd07bc45336b44a", "4c3986ba5973be25f5e3c871f047bc32e95a4a60cd3333cf5540ccf7c0746c8f"]
+idna = ["156a6814fb5ac1fc6850fb002e0852d56c0c8d2531923a51032d1b70760e186e", "684a38a6f903c1d71d6d5fac066b58d7768af4de2b832e426ec79c30daa94a16"]
 pypresence = ["d7e327212944ccc973d5c027c28e721e7f349e054b40200c25155be0c53dfe8d"]
 pyside2 = ["018d125e70f0a4dec9eddb6d6d1d9be36f1f10bf31067a9d4d2035e29f553114", "425f7dcae672db15470df994295710588bf6bd2cc9937e003b5b2ea21a0f69d5", "4bf50474c144d18f3c37e2cd0a73647b2133e431bf2416f52ac974cad7118b56", "79de3b8bad38f3371829165517fe265d02103b5fd9ff0980000dc45471dffc60", "8af8d62e8b63c61002e599a86799d2611b6fbef06ee82fd05b48d4ec591eae32", "df468f4592c1b64656ee382ee7e8b735dbe0e62fe470a5243fe36f0dc43f2d8e"]
+requests = ["65b3a120e4329e33c9889db89c80976c5272f56ea92d3e74da8a463992e3ff54", "ea881206e59f41dbd0bd445437d792e43906703fff75ca8ff43ccdb11f33f263"]
+urllib3 = ["61bf29cada3fc2fbefad4fdf059ea4bd1b4a86d2b6d15e1c7c0b582b9752fe39", "de9529817c93f27c8ccbfead6985011db27bd0ddfcdb2d86f3f663385c6a9c22"]
