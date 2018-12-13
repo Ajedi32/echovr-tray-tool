@@ -1,5 +1,6 @@
 from PySide2.QtWidgets import QMainWindow, QLabel, QBoxLayout, QWidget, \
                               QSystemTrayIcon, QStyle, QAction, QMenu, qApp
+from .discord_presence import DiscordPresenceThread
 
 class MainWindow(QMainWindow):
     """The main window of the application
@@ -33,11 +34,14 @@ class MainWindow(QMainWindow):
         tray_menu.addAction(show_action)
 
         quit_action = QAction("Exit", self)
-        quit_action.triggered.connect(qApp.quit)
+        quit_action.triggered.connect(self._quit)
         tray_menu.addAction(quit_action)
 
         self.tray_icon.setContextMenu(tray_menu)
         self.tray_icon.show()
+
+        self._discord_presence_thread = None
+        self._start_discord_presence_thread()
 
     def closeEvent(self, event):
         """Overridden to minimize to tray instead of exiting"""
@@ -50,3 +54,17 @@ class MainWindow(QMainWindow):
             QSystemTrayIcon.Information,
             3000,
         )
+
+    def _quit(self):
+        if self._discord_presence_thread:
+            self._discord_presence_thread.exit()
+            self._discord_presence_thread.wait()
+
+        qApp.quit()
+
+    def _start_discord_presence_thread(self):
+        if self._discord_presence_thread:
+            return
+
+        self._discord_presence_thread = DiscordPresenceThread()
+        self._discord_presence_thread.start()
