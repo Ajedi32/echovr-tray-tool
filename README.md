@@ -58,3 +58,7 @@ You can run your version of the Tray Tool with:
 ```
 poetry run python -m echovr_tray_tool
 ```
+
+### License
+
+The Echo VR Tray Tool's source code and associated files are freely available under the [MIT License](./MIT_LICENSE). All Echo VR logos and game assets are property of Ready At Dawn Studios® (who are unaffiliated with this project). All other dependencies of the Echo VR Tray Tool (including Python, Qt, and all required Python packages) are distributed under their respective licenses.
