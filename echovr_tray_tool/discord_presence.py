@@ -113,7 +113,7 @@ class DiscordPresenceThread(QThread):
         """Update Discord presence to indicate the player is not in a match"""
 
         self._set_presence(
-            large_image = 'echo_vr_logo',
+            large_image = 'echo_vr_cover_square_image',
             large_text = 'Echo VR',
         )
 
@@ -135,8 +135,10 @@ class DiscordPresenceThread(QThread):
         response = self._set_presence(
             details = f"Arena {match_type} ({team_size}): {score}",
             state = f"{role}",
-            large_image = 'echo_arena_store_icon_512x512',
-            large_text = 'Echo Arena',
+            large_image = 'echo_vr_cover_square_image',
+            large_text = 'Echo VR',
+            small_image = 'echo_arena_store_icon_512x512',
+            small_text = 'Echo Arena',
             end = round(time.time() + state.game_clock),
         )
 
