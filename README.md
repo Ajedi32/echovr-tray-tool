@@ -39,6 +39,10 @@ Once you've modified the files and restarted Oculus desktop, launch Echo VR. Ope
 
 In the future, we may provide functionality within the Tray Tool itself to handle reconfiguring the Oculus Desktop client automatically.
 
+### Generating a Shortcut
+
+Once you have installed all dependencies (see above) you can generate a shortcut to make it easier to launch the Echo VR Tray tool in the future. Simple right-click on the `create_shortut.ps1` file in the tray tool's source directory and click "Run with PowerShell". That script should then create a `Echo VR Tray Tool.lnk` file in the source directory that you can move anywhere you want.
+
 ### Running on Start Up
 
 TODO: Provide instructions on how to automatically run the Echo VR Tray Tool on Windows start-up.
