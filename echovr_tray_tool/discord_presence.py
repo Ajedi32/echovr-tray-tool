@@ -1,9 +1,12 @@
 import time
+import logging
 from PySide2.QtCore import QThread
-from pypresence import Presence
+import pypresence
 import echovr_api
 from requests.exceptions import ConnectionError
 from json.decoder import JSONDecodeError
+
+log = logging.getLogger(__name__)
 
 DISCORD_CLIENT_ID = 520065461896085515
 
@@ -13,7 +16,7 @@ class DiscordPresenceThread(QThread):
     def __init__(self):
         super().__init__()
 
-        self._presence_client = Presence(DISCORD_CLIENT_ID)
+        self._presence_client = pypresence.Presence(DISCORD_CLIENT_ID)
         self._connected = False
 
         self._game_client_running = False
@@ -24,10 +27,18 @@ class DiscordPresenceThread(QThread):
 
         Use `requestInterruption` or `exit` to stop.
         """
+
+        log.debug("Discord presence service started.")
+
         while not self.isInterruptionRequested():
-            self._update_presence()
+            self._refresh_presence()
             self._interruptible_sleep(15) # Discord Presence rate limit
+
+        log.debug("Stopping Discord presence service...")
+
         self._disconnect()
+
+        log.debug("Discord presence service stopped.")
 
     def exit(self, retcode=0):
         """Stop updating Discord presence"""
@@ -35,22 +46,73 @@ class DiscordPresenceThread(QThread):
         self.requestInterruption()
         super().exit(retcode)
 
-    def _connect(self):
-        if self._connected:
+    def _refresh_presence(self):
+        """Refresh Discord presence"""
+
+        if not self._connect():
             return
-        self._presence_client.connect()
-        self._connected = True
+
+        self._refresh_game_client_status()
+        if self._game_client_running:
+            if self._game_state != None:
+                self._set_game_state_presence()
+            else:
+                self._set_idle_presence()
+        else:
+            self._clear_presence()
+
+    def _connect(self):
+        """Attempt to connect to Discord
+
+        :returns: True if successful, otherwise False
+        """
+        if self._connected:
+            return True
+
+        try:
+            self._presence_client.connect()
+            self._connected = True
+        except pypresence.exceptions.InvalidPipe:
+            log.info("Failed to connect to Discord, likely because it is not running.")
+            return False
+
+        log.debug("Successfully connected to Discord.")
+        return True
 
     def _disconnect(self):
+        """Disconnect from Discord"""
         if not self._connected:
             return
-        self._presence_client.clear()
+        self._clear_presence()
         self._presence_client.close()
         self._connected = False
 
+    def _set_presence(self, **details):
+        """Set Discord presence to the specified state"""
+
+        log.debug(f"Updating Discord presence: {str(details)}")
+
+        try:
+            self._presence_client.update(**details)
+        except pypresence.exceptions.InvalidID as ex:
+            log.info("Failed to update Discord Presence, likely because Discord is no longer running.")
+            self._connected = False
+
+    def _clear_presence(self, **details):
+        """Clear Discord presence"""
+
+        log.debug(f"Clearing Discord presence...")
+
+        try:
+            self._presence_client.clear()
+        except pypresence.exceptions.InvalidID as ex:
+            log.info("Failed to update Discord Presence, likely because Discord is no longer running.")
+            self._connected = False
+
     def _set_idle_presence(self):
         """Update Discord presence to indicate the player is not in a match"""
-        self._presence_client.update(
+
+        self._set_presence(
             large_image = 'echo_vr_logo',
             large_text = 'Echo VR',
         )
@@ -70,26 +132,13 @@ class DiscordPresenceThread(QThread):
         role = "Spectating" if is_spectating else "Playing"
         clock = state.game_clock_display
 
-        response = self._presence_client.update(
+        response = self._set_presence(
             details = f"Arena {match_type} ({team_size}): {score}",
             state = f"{role}",
-            large_image = 'echo_vr_logo',
+            large_image = 'echo_arena_store_icon_512x512',
             large_text = 'Echo Arena',
             end = round(time.time() + state.game_clock),
         )
-
-    def _update_presence(self):
-        """Refresh Discord presence"""
-
-        self._refresh_game_client_status()
-        if self._game_client_running:
-            self._connect()
-            if self._game_state != None:
-                self._set_game_state_presence()
-            else:
-                self._set_idle_presence()
-        else:
-            self._disconnect()
 
     def _refresh_game_client_status(self):
         """Check if Echo VR is running and update game state"""
@@ -97,12 +146,15 @@ class DiscordPresenceThread(QThread):
         try:
             self._game_state = echovr_api.fetch_state()
             self._game_client_running = True
+            log.debug("Echo VR game state updated")
         except ConnectionError:
             self._game_state = None
             self._game_client_running = False
+            log.debug("Failed to connect to Echo VR API. Either Echo VR is not running, or it was not started with the -http flag.")
         except JSONDecodeError:
             self._game_state = None
             self._game_client_running = True
+            log.debug("Echo VR API returned invalid response, likely because a game is not in-progress.")
 
     def _interruptible_sleep(self, seconds, checkInterval=1.0/60.0):
         """A sleep that aborts early if `self.isInterruptionRequested()`"""
