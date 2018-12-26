@@ -168,10 +168,10 @@ class DiscordPresenceThread(QThread):
         is_spectating = state.find_player(username=state.client_name) == None
 
         match_type = "Private" if state.private_match else "Public"
-        score = f"{state.blue_team.score}-{state.orange_team.score}"
+        score = f"{state.orange_team.score}-{state.blue_team.score}"
         blue_team_size = len(state.blue_team.players)
         orange_team_size = len(state.orange_team.players)
-        team_size = f"{blue_team_size}v{orange_team_size}"
+        team_size = f"{orange_team_size}v{blue_team_size}"
         role = "Spectating" if is_spectating else "Playing"
         game_status = GAME_STATUS_DICT.get(state.game_status, "Unknown")
         show_end_time = state.game_status == "playing"
