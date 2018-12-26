@@ -41,7 +41,7 @@ In the future, we may provide functionality within the Tray Tool itself to handl
 
 ### Generating a Shortcut
 
-Once you have installed all dependencies (see above) you can generate a shortcut to make it easier to launch the Echo VR Tray tool in the future. Simple right-click on the `create_shortut.ps1` file in the tray tool's source directory and click "Run with PowerShell". That script should then create a `Echo VR Tray Tool.lnk` file in the source directory that you can move anywhere you want.
+Once you have installed all dependencies (see above) you can generate a shortcut to make it easier to launch the Echo VR Tray tool in the future. Simply right-click on the `create_shortut.ps1` file in the Tray Tool's source directory and click "Run with PowerShell". That script should then create a `Echo VR Tray Tool.lnk` file in the source directory that you can move anywhere you want (such as to your desktop or start menu).
 
 ### Running on Start Up
 
