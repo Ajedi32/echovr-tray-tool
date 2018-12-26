@@ -2,6 +2,8 @@
 
 Echo VR Tray Tool is a small, unofficial utility designed to run continuously in the background and provide various services to enhance your experience with Echo VR.
 
+![Screenshot. Discord status: Connected. Echo VR client status: Connected.](docs/images/main_window_screenshot.png)
+
 Right now, it only provides one service: Discord Rich Presence integration. In the future, more functionality such as stat tracking, party management, and streaming client integration may be provided. If you'd like to help add a service, see [Contributing](#contributing) below. For feature requests, file an issue or ask on the [Echo VR Discord server](https://discord.gg/bPB7v8d).
 
 ## Features
