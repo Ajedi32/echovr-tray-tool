@@ -10,6 +10,18 @@ log = logging.getLogger(__name__)
 
 DISCORD_CLIENT_ID = 520065461896085515
 
+GAME_STATUS_DICT = {
+    "pre_match": "Pre-match",
+    "playing": "In-progress",
+    "score": "Round start",
+    "round_start": "Round start",
+    "pre_sudden_death": "Overtime",
+    "sudden_death": "Overtime",
+    "post_sudden_death": "Post-match",
+    "round_over": "Post-match",
+    "post_match": "Post-match",
+}
+
 class DiscordPresenceThread(QThread):
     """A thread responsible for keeping Discord Presence updated"""
 
@@ -161,16 +173,18 @@ class DiscordPresenceThread(QThread):
         orange_team_size = len(state.orange_team.players)
         team_size = f"{blue_team_size}v{orange_team_size}"
         role = "Spectating" if is_spectating else "Playing"
-        clock = state.game_clock_display
+        game_status = GAME_STATUS_DICT.get(state.game_status, "Unknown")
+        show_end_time = state.game_status == "playing"
+        end_time = round(time.time() + state.game_clock)
 
         response = self._set_presence(
             details = f"Arena {match_type} ({team_size}): {score}",
-            state = f"{role}",
+            state = f"{role} - {game_status}",
             large_image = 'echo_vr_cover_square_image',
             large_text = 'Echo VR',
             small_image = 'echo_arena_store_icon_512x512',
             small_text = 'Echo Arena',
-            end = round(time.time() + state.game_clock),
+            end = end_time if show_end_time else None,
         )
 
     def _refresh_game_client_status(self):
