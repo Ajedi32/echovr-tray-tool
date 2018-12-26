@@ -1,6 +1,6 @@
 import time
 import logging
-from PySide2.QtCore import QThread
+from PySide2.QtCore import QThread, Signal
 import pypresence
 import echovr_api
 from requests.exceptions import ConnectionError
@@ -13,11 +13,14 @@ DISCORD_CLIENT_ID = 520065461896085515
 class DiscordPresenceThread(QThread):
     """A thread responsible for keeping Discord Presence updated"""
 
+    connection_status_changed = Signal(bool)
+    game_client_status_changed = Signal(bool)
+
     def __init__(self):
         super().__init__()
 
         self._presence_client = pypresence.Presence(DISCORD_CLIENT_ID)
-        self._connected = False
+        self.__connected = False
 
         self._game_client_running = False
         self._game_state = None
@@ -45,6 +48,34 @@ class DiscordPresenceThread(QThread):
 
         self.requestInterruption()
         super().exit(retcode)
+
+    @property
+    def connected(self):
+        """Returns whether we're currently connected to Discord"""
+        return self._connected
+
+    @property
+    def _connected(self):
+        return self.__connected
+
+    @_connected.setter
+    def _connected(self, value):
+        self.connection_status_changed.emit(value)
+        self.__connected = value
+
+    @property
+    def game_client_running(self):
+        """Returns whether we're connected to the Echo VR game client"""
+        return self._game_client_running
+
+    @property
+    def _game_client_running(self):
+        return self.__game_client_running
+
+    @_game_client_running.setter
+    def _game_client_running(self, value):
+        self.game_client_status_changed.emit(value)
+        self.__game_client_running = value
 
     def _refresh_presence(self):
         """Refresh Discord presence"""
