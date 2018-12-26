@@ -39,6 +39,8 @@ If, after saving the files your Oculus desktop client will no longer start, rest
 
 Once you've modified the files and restarted Oculus desktop, launch Echo VR. Open the Echo VR Tray Tool and check that it shows the client status as "Connected". If this works, you should be good to go.
 
+Note that the configuration changes you made in this step might get undone when Echo VR releases an update, so if in the future you find that the Echo VR Tray tool is no longer connecting, you might need to run through this again.
+
 In the future, we may provide functionality within the Tray Tool itself to handle reconfiguring the Oculus Desktop client automatically.
 
 ### Generating a Shortcut
