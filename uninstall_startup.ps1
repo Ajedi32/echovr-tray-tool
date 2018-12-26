@@ -1,3 +1,1 @@
-Remove-ItemProperty `
-  -Path Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run `
-  -Name "Echo VR Tray Tool" `
+Remove-Item "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup\Echo VR Tray Tool.lnk"

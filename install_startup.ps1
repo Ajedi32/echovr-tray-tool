@@ -1,4 +1,2 @@
-Set-ItemProperty `
-  -Path Registry::HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Run `
-  -Name "Echo VR Tray Tool" `
-  -Value "powershell `"$PSScriptRoot\echovr_tray_tool.ps1`""
+& "$PSScriptRoot\create_shortcut.ps1"
+Copy-Item "$PSScriptRoot\Echo VR Tray Tool.lnk" -Destination "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
