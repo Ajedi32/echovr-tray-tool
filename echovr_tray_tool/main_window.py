@@ -1,7 +1,8 @@
 from PySide2.QtWidgets import QMainWindow, QLabel, QGridLayout, QWidget, \
                               QSystemTrayIcon, QStyle, QAction, QMenu, qApp
 from PySide2.QtCore import Qt
-from PySide2.QtGui import QFont
+from PySide2.QtGui import QFont, QIcon
+from .echo_vr_install import ICON_IMAGE
 from .discord_presence import DiscordPresenceThread
 
 _HEADER_FONT = QFont("helvetica", weight=QFont.Bold)
@@ -17,8 +18,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
 
+        icon = QIcon(ICON_IMAGE)
+
         self.setMinimumSize(300, 50)
         self.setWindowTitle("Echo VR Tray Tool")
+        self.setWindowIcon(icon)
 
         main_widget = QWidget(self)
         self.setCentralWidget(main_widget)
@@ -41,11 +45,7 @@ class MainWindow(QMainWindow):
 
         main_layout.setRowStretch(2, 1)
 
-        self.tray_icon = QSystemTrayIcon(self)
-        self.tray_icon.setIcon(
-            # TODO: Design better icon
-            self.style().standardIcon(QStyle.SP_TitleBarMenuButton)
-        )
+        self.tray_icon = QSystemTrayIcon(icon, self)
 
         tray_menu = QMenu()
 
