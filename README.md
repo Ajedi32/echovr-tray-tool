@@ -43,9 +43,13 @@ In the future, we may provide functionality within the Tray Tool itself to handl
 
 Once you have installed all dependencies (see above) you can generate a shortcut to make it easier to launch the Echo VR Tray tool in the future. Simply right-click on the `create_shortut.ps1` file in the Tray Tool's source directory and click "Run with PowerShell". That script should then create a `Echo VR Tray Tool.lnk` file in the source directory that you can move anywhere you want (such as to your desktop or start menu).
 
-### Running on Start Up
+### Running on start up
 
-TODO: Provide instructions on how to automatically run the Echo VR Tray Tool on Windows start-up.
+Once you have installed all dependencies (see above) you can configure the Echo VR tray tool to run automatically when you start your computer. This will allow features like Discord Presence and (in the future) stat tracking to work passively in the background without requiring any conscious effort on your part.
+
+To set this up, simply right-click on the `install_startup.ps1` file in the Tray Tool's source directory and click "Run with PowerShell". That script should then create a `Echo VR Tray Tool.lnk` shortcut in your system's start up folder (`%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup`).
+
+To uninstall, right-click on the `uninstall_startup.ps1` file in the Tray Tool's source directory and click "Run with PowerShell". (Or just remove the `%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\Echo VR Tray Tool.lnk` file manually.)
 
 In the future, we may provide functionality within the Tray Tool to let you run it on start-up with a single click.
 
